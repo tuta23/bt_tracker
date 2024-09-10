@@ -96,8 +96,10 @@ def update_csv2(product_dict, time_updated):
         if product not in new_row and product != 'Time' and product != 'BT_Updated_Time':
             new_row[product] = 'Not Present on Page'
 
-    # Append the new row to the dataframe
-    df = df.append(new_row, ignore_index=True)
+    # Convert the new_row to a DataFrame and use pd.concat instead of append
+    new_row_df = pd.DataFrame([new_row])
+    
+    df = pd.concat([df, new_row_df], ignore_index=True)
 
     # Save the dataframe back to the CSV
     df.to_csv(csv_filename, index=False)
